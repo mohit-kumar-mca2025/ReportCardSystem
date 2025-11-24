@@ -22,6 +22,9 @@ namespace ReportCard
          * Input: None
          * Output: Default constructed Student
          * Approach: Initializes values to safe defaults.
+         *
+         * Side Effects:
+         *  - Initializes internal member variables (object state mutation).
          */
         Student();
 
@@ -37,10 +40,13 @@ namespace ReportCard
          *
          * Output: Constructed Student
          * Approach: Copies inputs into object and updates computed fields.
+         *
+         * Side Effects:
+         *  - Sets internal state values and triggers recalculate().
          */
         Student(const std::string &name, const std::string &className, int roll, const std::vector<int> &marks);
 
-        // --- Accessors ---
+        // --- Accessors (no side effects — pure) ---
         const std::string &getName() const;
         const std::string &getClassName() const;
         int getRoll() const;
@@ -58,6 +64,10 @@ namespace ReportCard
          * Input: None (uses internal marks)
          * Output: Updates internals: total, percentage, grade, passFlag
          * Approach: Sum marks; percentage = total / (marks.size() * 100) * 100; assign grade by bracket.
+         *
+         * Side Effects:
+         *  - Mutates internal computed fields: total_, percentage_, grade_, pass_.
+         *  - Function is NOT pure (depends on and modifies object state).
          */
         void recalculate();
 
@@ -68,6 +78,9 @@ namespace ReportCard
          * Input: None
          * Output: std::string CSV line
          * Approach: escape name/class if needed and join fields; marks stored comma-separated in a quoted field.
+         *
+         * Side Effects:
+         *  - None (pure function that returns a string without modifying state).
          */
         std::string toCSV() const;
 
@@ -79,6 +92,10 @@ namespace ReportCard
          *  @param line std::string - CSV line
          * Output: true if success, false otherwise
          * Approach: Split fields carefully, parse marks list and other fields.
+         *
+         * Side Effects:
+         *  - Mutates outStudent's internal fields.
+         *  - Calls recalculate(), which further mutates computed fields.
          */
         static bool fromCSV(const std::string &line, Student &outStudent);
 
@@ -89,6 +106,9 @@ namespace ReportCard
          * Input: None
          * Output: std::string containing formatted report card
          * Approach: Compose a multi-line string with student details and marks.
+         *
+         * Side Effects:
+         *  - None (pure function: only returns formatted text).
          */
         std::string formattedReportCard() const;
 
