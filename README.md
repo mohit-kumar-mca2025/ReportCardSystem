@@ -30,7 +30,7 @@ To run this project, you need a C++ compiler installed on your system.
 1.  **Clone the Repository**
 
     ```bash
-    git clone [https://github.com/mohit-kumar-mca2025/ReportCardSystem.git](https://github.com/mohit-kumar-mca2025/ReportCardSystem.git)
+    git clone https://github.com/mohit-kumar-mca2025/ReportCardSystem.git
     cd ReportCardSystem
     ```
 
