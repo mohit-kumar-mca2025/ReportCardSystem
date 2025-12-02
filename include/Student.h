@@ -56,6 +56,22 @@ namespace ReportCard
         std::string getGrade() const;
         bool isPass() const;
 
+        // 🌟 NEW ACCESSOR: Teacher Comment
+        const std::string &getTeacherComment() const;
+
+        // --- Mutator for Teacher Comment ---
+        /**
+         * Objective:
+         * Set the qualitative comment provided by the teacher/administrator.
+         *
+         * Input:
+         * @param comment std::string - The qualitative comment.
+         *
+         * Side Effects:
+         * - Mutates internal teacherComment_ field.
+         */
+        void setTeacherComment(const std::string &comment); 
+
         // --- Operations ---
         /**
          * Objective:
@@ -123,6 +139,9 @@ namespace ReportCard
         double percentage_;
         std::string grade_;
         bool pass_;
+
+        // 🌟 NEW MEMBER: Teacher Comments
+        std::string teacherComment_;
     };
 
 } // namespace ReportCard

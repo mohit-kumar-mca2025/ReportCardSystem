@@ -26,9 +26,10 @@ int main()
         cout << "4. Show Topper\n";
         cout << "5. Sort by Percentage (desc)\n";
         cout << "6. Edit Student Marks\n";
-        cout << "7. Delete Student\n";
+        cout << "7. Edit Teacher Comment\n"; // <-- 🌟 NEW OPTION
         cout << "8. View Students by Class\n";
-        cout << "9. Exit\n";
+        cout << "9. Delete Student\n";      // <-- SHIFTED
+        cout << "10. Exit\n";
 
         int choice = readInt("Choose option: ");
 
@@ -178,19 +179,39 @@ int main()
             pause();
         }
 
-        // ------------------------ DELETE STUDENT ------------------------
+        // ------------------------ EDIT TEACHER COMMENT ------------------------
         else if (choice == 7)
         {
-            int roll = readInt("Roll to delete: ");
+            int roll = readInt("Roll to edit comments: ");
+            Student *s = mgr.findByRoll(roll);
 
-            // Remove student by roll number
-            if (mgr.removeByRoll(roll))
-                cout << "Deleted.\n";
+            // Validate student exists
+            if (!s)
+            {
+                cout << "Student with Roll " << roll << " not found.\n";
+                pause();
+                continue;
+            }
+
+            // Display existing comment
+            cout << "--- Current Comment ---\n";
+            cout << s->getTeacherComment() << "\n";
+            cout << "-----------------------\n";
+
+            // Read new comment (using readLine for multiline potential)
+            string newComment = readLine("Enter NEW teacher comment: ");
+            
+            // Assume StudentManager::editTeacherComment is implemented to find, set, and save.
+            if (mgr.editTeacherComment(roll, newComment))
+                cout << "Teacher comment updated successfully for student " << roll << ".\n";
             else
-                cout << "Not found.\n";
+                cout << "Failed to update teacher comment.\n";
 
             pause();
         }
+
+
+       
         // ------------------------ VIEW STUDENTS BY CLASS ------------------------
         else if (choice == 8)
         {
@@ -213,9 +234,22 @@ int main()
 
             pause();
         }
+ // ------------------------ DELETE STUDENT ------------------------
+        else if (choice == 9) 
+        {
+            int roll = readInt("Roll to delete: ");
 
+            // Remove student by roll number
+            if (mgr.removeByRoll(roll))
+                cout << "Deleted.\n";
+            else
+                cout << "Not found.\n";
+
+            pause();
+        }
         // ------------------------ EXIT APP ------------------------
-        else if (choice == 9)
+        else if (choice == 10) // SHIFTED FROM 8
+      
         {
             cout << "Exiting. Goodbye!\n";
             break;

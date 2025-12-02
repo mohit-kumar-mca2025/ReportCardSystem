@@ -9,10 +9,11 @@ namespace ReportCard
 {
 
     Student::Student()
-        : name_(""), className_(""), roll_(0), marks_(), total_(0), percentage_(0.0), grade_("F"), pass_(false) {}
+        : name_(""), className_(""), roll_(0), marks_(), total_(0), percentage_(0.0), grade_("F"), pass_(false),teacherComment_("") {}
 
     Student::Student(const string &name, const string &className, int roll, const vector<int> &marks)
-        : name_(name), className_(className), roll_(roll), marks_(marks)
+        : name_(name), className_(className), roll_(roll), marks_(marks),
+          teacherComment_("")
     {
         recalculate();
     }
@@ -25,7 +26,11 @@ namespace ReportCard
     double Student::getPercentage() const { return percentage_; }
     string Student::getGrade() const { return grade_; }
     bool Student::isPass() const { return pass_; }
+    // 🌟 NEW ACCESSOR DEFINITION (Missing linker target 1)
+    const std::string &Student::getTeacherComment() const { return teacherComment_; }
 
+    // 🌟 NEW MUTATOR DEFINITION (Missing linker target 2)
+    void Student::setTeacherComment(const std::string &comment) { teacherComment_ = comment; }
     void Student::recalculate()
     {
         total_ = 0;
@@ -88,6 +93,18 @@ namespace ReportCard
             oss << marks_[i];
         }
         oss << "\"," << total_ << "," << fixed << setprecision(2) << percentage_ << "," << grade_ << "," << (pass_ ? "1" : "0");
+
+        // 🌟 NEW FIELD 9: Teacher Comment (must be escaped)
+    oss << "," << escapeCSVField(teacherComment_); 
+
+    // Assuming history implementation is next (field 10). If you skipped history, this part is removed.
+    // 🌟 If history is implemented, the existing history serialization logic goes here, prefixed by a comma.
+    /*
+    oss << ",\"";
+    // ... history serialization logic ...
+    oss << "\""; 
+    */
+
         return oss.str();
     }
 
@@ -139,7 +156,11 @@ namespace ReportCard
             }
         }
         fields.push_back(cur);
-        if (fields.size() < 8)
+
+        // 🌟 CHECK FIELD COUNT: 
+    // 9 fields if history is NOT implemented (8 existing + 1 comment)
+    // 10 fields if history IS implemented (8 existing + 1 comment + 1 history)
+        if (fields.size() < 9)
             return false; // we expect at least 8 fields
 
         string name = unescapeField(fields[0]);
@@ -168,6 +189,13 @@ namespace ReportCard
         Student s(name, className, roll, marks);
         // recalculate ensures computed fields match
         s.recalculate();
+  
+        // 🌟 NEW FIELD PARSING: Teacher Comment (Field 8 if 0-indexed, or index fields.size() - 2 if history is the last field)
+    // Assuming the order is: ...,pass,teacherComment,history
+    size_t commentIndex = 8; 
+
+    string comment = unescapeField(fields[commentIndex]);
+    s.teacherComment_ = comment; // Set the new member
 
         outStudent = s;
         return true;
@@ -193,6 +221,13 @@ namespace ReportCard
         oss << "Percent : " << fixed << setprecision(2) << percentage_ << "%\n";
         oss << "Grade   : " << grade_ << "\n";
         oss << "Result  : " << (pass_ ? "PASS" : "FAIL") << "\n";
+
+        // 🌟 NEW DISPLAY FIELD
+    oss << "------------------------------------------\n";
+    oss << "Teacher Comments:\n";
+    oss << teacherComment_ << "\n";
+    oss << "------------------------------------------\n"; 
+
         oss << "------------------------------------------\n";
         return oss.str();
     }
