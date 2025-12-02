@@ -159,6 +159,27 @@ namespace ReportCard
          */
         bool saveToFile() const;
 
+
+        /**
+         * Objective:
+         *  Get list of students in a specific class.
+         *
+         * Input:
+         *  @param className std::string - class/section name
+         *
+         * Output:
+         *  std::vector<Student> - list of students in that class
+         *
+         * Approach:
+         *  Filter students_ vector for matching className.
+         *
+         * Side Effects:
+         *  - None (read-only operation).
+         */
+
+        std::vector<Student> getStudentsByClass(const std::string& className) const;
+
+
         /**
          * Objective:
          *  Check if a roll number already exists.
