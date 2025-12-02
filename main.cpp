@@ -27,8 +27,9 @@ int main()
         cout << "5. Sort by Percentage (desc)\n";
         cout << "6. Edit Student Marks\n";
         cout << "7. Edit Teacher Comment\n"; // <-- 🌟 NEW OPTION
-        cout << "8. Delete Student\n";      // <-- SHIFTED
-        cout << "9. Exit\n";                 // <-- SHIFTED
+        cout << "8. View Students by Class\n";
+        cout << "9. Delete Student\n";      // <-- SHIFTED
+        cout << "10. Exit\n";
 
         int choice = readInt("Choose option: ");
 
@@ -210,8 +211,31 @@ int main()
         }
 
 
-        // ------------------------ DELETE STUDENT ------------------------
-        else if (choice == 8) // SHIFTED FROM 7
+       
+        // ------------------------ VIEW STUDENTS BY CLASS ------------------------
+        else if (choice == 8)
+        {
+            string className = readLine("Enter class name: ");
+            // Get list of students in the specified class
+            auto list = mgr.getStudentsByClass(className);
+
+            if (list.empty())
+            {     // No students found
+                cout << "No students found in class " << className << ".\n";
+            }
+            else
+            {    // Display students
+                cout << "Students in class " << className << ":\n";
+                for (const auto &s : list)
+                {
+                    cout << s.formattedReportCard() << "\n";
+                }
+            }
+
+            pause();
+        }
+ // ------------------------ DELETE STUDENT ------------------------
+        else if (choice == 9) 
         {
             int roll = readInt("Roll to delete: ");
 
@@ -223,9 +247,9 @@ int main()
 
             pause();
         }
-
         // ------------------------ EXIT APP ------------------------
-        else if (choice == 9) // SHIFTED FROM 8
+        else if (choice == 10) // SHIFTED FROM 8
+      
         {
             cout << "Exiting. Goodbye!\n";
             break;

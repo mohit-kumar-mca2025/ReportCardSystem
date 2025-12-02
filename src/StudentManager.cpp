@@ -166,4 +166,18 @@ namespace ReportCard
         return false;
     }
 
+    std::vector<Student> StudentManager::getStudentsByClass(const std::string &className) const
+    {   // Initialize vector to store matching students
+        std::vector<Student> result;
+
+        for (const auto &s : students_)
+        {  // Check if the student's class name matches the input class name
+            if (s.getClassName() == className)
+              // Add matching student to the result vector
+                result.push_back(s);
+        }
+
+        return result;
+    }
+
 } // namespace ReportCard
