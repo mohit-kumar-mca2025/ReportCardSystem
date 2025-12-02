@@ -63,7 +63,29 @@ namespace ReportCard
         s->recalculate();
         return saveToFile();
     }
-
+// 🌟 NEW FUNCTION: Edit Teacher Comment
+    /**
+     * Finds a student by roll number, updates the teacher comment, and saves all data.
+     * @param roll The roll number of the student.
+     * @param comment The new comment string.
+     * @return true if updated and saved, false otherwise.
+     */
+    bool StudentManager::editTeacherComment(int roll, const std::string& comment)
+    {
+        // 1. Find the student by roll number (mutable reference needed)
+        Student* s = findByRoll(roll);
+        
+        if (!s) {
+            return false; // Student not found
+        }
+        
+        // 2. Update the teacherComment_ field using the Student's setter
+        // Note: The Student class must have a setTeacherComment(string) method for this to compile.
+        s->setTeacherComment(comment);
+        
+        // 3. Save all students back to the CSV file to persist the change
+        return saveToFile();
+    }
     const Student *StudentManager::getTopper() const
     {
         if (students_.empty())

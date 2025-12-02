@@ -12,7 +12,7 @@ namespace ReportCard
         : name_(""), className_(""), roll_(0), marks_(), total_(0), percentage_(0.0), grade_("F"), pass_(false),teacherComment_("") {}
 
     Student::Student(const string &name, const string &className, int roll, const vector<int> &marks)
-        : name_(name), className_(className), roll_(roll), marks_(marks),,
+        : name_(name), className_(className), roll_(roll), marks_(marks),
           teacherComment_("")
     {
         recalculate();
@@ -26,7 +26,11 @@ namespace ReportCard
     double Student::getPercentage() const { return percentage_; }
     string Student::getGrade() const { return grade_; }
     bool Student::isPass() const { return pass_; }
+    // 🌟 NEW ACCESSOR DEFINITION (Missing linker target 1)
+    const std::string &Student::getTeacherComment() const { return teacherComment_; }
 
+    // 🌟 NEW MUTATOR DEFINITION (Missing linker target 2)
+    void Student::setTeacherComment(const std::string &comment) { teacherComment_ = comment; }
     void Student::recalculate()
     {
         total_ = 0;
@@ -223,7 +227,7 @@ namespace ReportCard
     oss << "Teacher Comments:\n";
     oss << teacherComment_ << "\n";
     oss << "------------------------------------------\n"; 
-    
+
         oss << "------------------------------------------\n";
         return oss.str();
     }

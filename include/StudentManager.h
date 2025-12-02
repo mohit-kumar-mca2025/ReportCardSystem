@@ -87,6 +87,7 @@ namespace ReportCard
          *  - Persists updated data to disk via saveToFile().
          */
         bool removeByRoll(int roll);
+          bool editTeacherComment(int roll, const std::string& comment); 
 
         /**
          * Objective:
