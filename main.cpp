@@ -27,7 +27,8 @@ int main()
         cout << "5. Sort by Percentage (desc)\n";
         cout << "6. Edit Student Marks\n";
         cout << "7. Delete Student\n";
-        cout << "8. Exit\n";
+        cout << "8. View Students by Class\n";
+        cout << "9. Exit\n";
 
         int choice = readInt("Choose option: ");
 
@@ -190,9 +191,31 @@ int main()
 
             pause();
         }
+        // ------------------------ VIEW STUDENTS BY CLASS ------------------------
+        else if (choice == 8)
+        {
+            string className = readLine("Enter class name: ");
+            // Get list of students in the specified class
+            auto list = mgr.getStudentsByClass(className);
+
+            if (list.empty())
+            {     // No students found
+                cout << "No students found in class " << className << ".\n";
+            }
+            else
+            {    // Display students
+                cout << "Students in class " << className << ":\n";
+                for (const auto &s : list)
+                {
+                    cout << s.formattedReportCard() << "\n";
+                }
+            }
+
+            pause();
+        }
 
         // ------------------------ EXIT APP ------------------------
-        else if (choice == 8)
+        else if (choice == 9)
         {
             cout << "Exiting. Goodbye!\n";
             break;
